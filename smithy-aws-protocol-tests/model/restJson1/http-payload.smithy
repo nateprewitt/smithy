@@ -30,7 +30,7 @@ apply HttpPayloadTraits @httpRequestTests([
         body: "blobby blob blob",
         bodyMediaType: "application/octet-stream",
         headers: {
-            "Content-Type": "application/octet-stream",
+            "Content-Type": "application/foo-bar",
             "X-Foo": "Foo"
         },
         requireHeaders: [
