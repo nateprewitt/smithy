@@ -52,6 +52,9 @@ apply HttpPayloadTraits @httpRequestTests([
         headers: {
             "X-Foo": "Foo"
         },
+        requireHeaders: [
+            "Content-Length"
+        ],
         params: {
             foo: "Foo"
         }
@@ -235,6 +238,47 @@ apply HttpPayloadWithStructure @httpRequestTests([
     }
 ])
 
+apply HttpPayloadWithStructure @httpRequestTests([
+    {
+        id: "RestJsonHttpPayloadWithEmptyStructure",
+        documentation: "Serializes an empty structure in the payload",
+        protocol: restJson1,
+        method: "PUT",
+        uri: "/HttpPayloadWithStructure",
+        body: "{}",
+        bodyMediaType: "application/json",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        requireHeaders: [
+            "Content-Length"
+        ],
+        params: {}
+    }
+])
+
+apply HttpPayloadWithStructure @httpRequestTests([
+    {
+        id: "RestJsonHttpPayloadWithHeaderButEmptyStructure",
+        documentation: "Serializes params with empty structure in the payload",
+        protocol: restJson1,
+        method: "PUT",
+        uri: "/HttpPayloadWithStructure",
+        body: "{}",
+        bodyMediaType: "application/json",
+        headers: {
+            "Content-Type": "application/json",
+            "X-Foo": "bar"
+        },
+        requireHeaders: [
+            "Content-Length"
+        ],
+        params: {
+            "foo": "bar"
+        }
+    }
+])
+
 apply HttpPayloadWithStructure @httpResponseTests([
     {
         id: "RestJsonHttpPayloadWithStructure",
@@ -260,6 +304,9 @@ apply HttpPayloadWithStructure @httpResponseTests([
 ])
 
 structure HttpPayloadWithStructureInputOutput {
+    @httpHeader("X-Foo")
+    foo: String,
+
     @httpPayload
     nested: NestedPayload,
 }
