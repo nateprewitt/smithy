@@ -241,7 +241,7 @@ structure TestPayloadBlobInputOutput {
 /// (Content-Length, Content-Type) to operations that semantically
 /// cannot produce an HTTP body.
 ///
-@idempotent
+@readonly
 @http(uri: "/no_payload", method: "GET")
 operation TestNoPayload {
     input: TestNoPayloadInputOutput,
@@ -256,9 +256,7 @@ apply TestNoPayload @httpRequestTests([
         method: "GET",
         uri: "/no_payload",
         body: "",
-        headers: {
-        },
-        requireHeaders: [
+        forbidHeaders: [
             "Content-Length",
             "Content-Type"
         ],
@@ -277,7 +275,7 @@ apply TestNoPayload @httpRequestTests([
         headers: {
             "X-Amz-Test-Id": "t-12345"
         },
-        requireHeaders: [
+        forbidHeaders: [
             "Content-Length",
             "Content-Type"
         ],
